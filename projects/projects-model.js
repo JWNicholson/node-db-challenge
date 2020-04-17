@@ -16,43 +16,78 @@ module.exports = {
 }
 
 //Projects
-function getProjects(){
-
+function getProjects() {
+    return db('projects')
+        .innerJoin('tasks', 'projects.id', 'tasks.project_id')
+        .select([
+            'projects.project_name',
+            'projects.description',
+            'users.name as userName',
+            knex.raw('ARRAY_AGG(tasks.notes) as notes')
+        ])
+        .groupBy('projects.project_name','projects.description');
 }
 
-function getProjectById(){
-
+function getProjectById(id) {
+    return db('projects')
+        .where({id})
+        .first();
 }
 
-function addProject(){
-    
+function addProject(project) {
+    return db('projects')
+        .insert(project, 'id')
+        .then(ids => {
+            const [id] = ids;
+            return getProjectById(id);
+        })
 }
 //Tasks
-function getAllTasks(){
-
+function getAllTasks() {
+    return db('tasks');
 }
 
-function getTaskById(){
-
+function getTaskById(id) {
+    return db('tasks')
+        .where({id})
+        .first();
 }
 
-function addTask(){
-
+function addTask(project_id, task) {
+    return db('tasks')
+        .where({project_id})
+        .insert(task, 'id')
+        .then(ids => {
+            const [id] = ids;
+            return getTaskById(id)
+        });
 }
 
 //Resources
 function getResources(){
-
+    return db('resources');
 }
 
-function getResourceById(){
-
+function getResourceById(id) {
+    return db('resources')
+        .where({id});
 }
 
-function getProjectTasks(){
-
+function getProjectTasks(project_id) {
+    return db('tasks')
+        .join('projects', 'tasks.project_id', 'projects.id')
+        .select('projects.project_name', 
+                'projects.description as project_description', 
+                'tasks.description as task_description', 
+                'tasks.notes as task_notes')
+        .where({project_id: project_id});
 }
 
-function addResource(){
-    
+function addResource(resource) {
+    return db('resources')
+        .insert(resource, 'id')
+        .then(ids => {
+            const [id] = ids;
+            return getResourceById(id);
+        });
 }
