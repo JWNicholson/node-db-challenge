@@ -48,6 +48,8 @@ Crud routes
 	getResourcesById(); /resources/:id
 	addResource(); /resources
 
+Fill in seeds
+
 Load up
 	knex migrate:latest
 	

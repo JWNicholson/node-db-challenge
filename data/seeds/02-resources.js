@@ -1,13 +1,11 @@
 
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
+  // Inserts seed entries
+  return knex('resources').insert([
+    {name: 'Paper', description: 'use for rough planning of apps'},
+    {name: 'Pencil', description: 'used to make lines on paper'},
+    {name: 'Desktop PC', description: 'Cheaper than MAC'},
+    {name: 'Mouse', description: 'make computer pointer move and select things'},
+    {name: 'Wireless headset', description: 'Great for freedom to move about and still hear media'},
+  ]);
 };
