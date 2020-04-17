@@ -23,7 +23,8 @@ Add seeds
 				   03-tasks
 				   04-project-resources
 	
-
+Create server & db-config
+index.js and server.js db-config.js
 Crud routes
 ********Projects**********
 //GET 
