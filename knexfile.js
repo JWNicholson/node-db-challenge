@@ -8,17 +8,18 @@ module.exports = {
       filename: './data/projects.db3'
     },
     useNullAsDefault:true,
-    migratons: {
-      directory: './data/migrations'
+    migrations:{
+      directory:'./data/migrations'
     },
     seeds: {
       directory: './data/seeds'
     },
-     //need to ensure foreign key restrictions work
-     pool: {
+    //need to ensure foreign key restrictions work
+    pool: {
       afterCreate: (conn, done) => {
         conn.run('PRAGMA foreign_keys = ON', done);//turns on the foreign key enforcement
       }
     }
   }
 };
+
