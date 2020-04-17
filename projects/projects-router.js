@@ -14,11 +14,10 @@ router.get('/projects', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get projects.' });
+            res.status(500).json({ error: 'Failed to get projects' })
         })
 });
-
-//Get by Id
+// Get a project via id
 router.get('/projects/:id', (req, res) => {
     const {id} = req.params;
 
@@ -27,16 +26,15 @@ router.get('/projects/:id', (req, res) => {
             if(project) {
                 res.status(200).json(project)
             } else {
-                res.status(404).json({ message: 'Could not find a project with that id.' });
+                res.status(404).json({ message: 'Could not find project with given id.' })
             }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get projects.' })
+            res.status(500).json({ error: 'Failed to get projects' })
         })
 });
-
-//Add project
+// Add a project
 router.post('/projects', (req, res) => {
     Projects.addProject(req.body)
         .then(project => {
@@ -44,13 +42,14 @@ router.post('/projects', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not add the project' });
+            res.status(500).json({ error: 'Failed to add project' })
         })
-});
+})
+
 
 //Tasks//
 
-//Get all tasks
+// Get all tasks
 router.get('/tasks', (req, res) => {
     Projects.getAllTasks()
         .then(tasks => {
@@ -58,25 +57,27 @@ router.get('/tasks', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the tasks.' });
+            res.status(500).json({ error: 'Failed to get all tasks' })
         })
-});
-
-//Get by Id
+})
+// Get tasks by id
 router.get('/tasks/:id', (req, res) => {
     const {id} = req.params;
 
     Projects.getTaskById(id)
         .then(task => {
-            res.status(200).json(task)
+            if(task) {
+                res.status(200).json(task)
+            } else {
+                res.status(404).json({ message: 'Could not find task with that id.' })
+            }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the tasks.'});
+            res.status(500).json({ error: 'Could not get the task.'})
         })
-});
-
-//Get a projects tasks
+})
+// Get a project's tasks
 router.get('/projects/:id/tasks', (req, res) => {
     const {id} = req.params;
 
@@ -86,26 +87,25 @@ router.get('/projects/:id/tasks', (req, res) => {
                 Projects.getProjectTasks(id)
                     .then(tasks => {
                         if(tasks.length === 0) {
-                            res.status(200).json({ message: 'There arent any tasks.'});
+                            res.status(200).json({ message: 'Could not find the task.'})
                         } else {
                             res.status(200).json(tasks)
                         }
                     })
                     .catch(err => {
                         console.log(err)
-                        res.status(500).json({ error: 'Could not get the tasks.' });
+                        res.status(500).json({ error: 'Could not add the resource.' })
                     })
             } else {
-                res.status(404).json({ message: 'Could not find a project with that id.' });
+                res.status(404).json({ message: 'Could not find project with that id.' })
             }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the project.' });
+            res.status(500).json({ error: 'Could not get the resource' })
         })
 });
-
-//Add a task to project
+// Add task to a project
 router.post('/projects/:id/tasks', (req, res) => {
     req.body.project_id = req.params.id;
 
@@ -115,13 +115,11 @@ router.post('/projects/:id/tasks', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the task.' })
+            res.status(500).json({ error: 'Could not add the resource' })
         })
-});
+})
 
 //Resources//
-
-//Get all resources
 router.get('/resources', (req, res) => {
     Projects.getResources()
         .then(resources => {
@@ -129,25 +127,27 @@ router.get('/resources', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the resources.' })
+            res.status(500).json({ error: 'Could not get the resource.' })
         })
 });
 
-//Get by Id
 router.get('/resources/:id', (req, res) => {
     const {id} = req.params;
 
     Projects.getResourceById(id)
         .then(resource => {
-            res.status(200).json(resource)
+            if(resource) {
+                res.status(200).json(resource)
+            } else {
+                res.status(404).json({ message: 'Could not find resource with that id.'})
+            }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Could not get the resources.' })
+            res.status(500).json({ error: 'Could not add  the resources.' })
         })
 });
 
-//Add resource
 router.post('/resources', (req, res) => {
     Projects.addResource(req.body)
         .then(resource => {
@@ -157,7 +157,6 @@ router.post('/resources', (req, res) => {
             console.log(err)
             res.status(500).json({ error: 'Could not add  the resource.' })
         })
-});
-
+})
 
 module.exports = router;
