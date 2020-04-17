@@ -17,15 +17,7 @@ module.exports = {
 
 //Projects
 function getProjects() {
-    return db('projects')
-        .innerJoin('tasks', 'projects.id', 'tasks.project_id')
-        .select([
-            'projects.project_name',
-            'projects.description',
-            'users.name as userName',
-            knex.raw('ARRAY_AGG(tasks.notes) as notes')
-        ])
-        .groupBy('projects.project_name','projects.description');
+    return db('projects');
 }
 
 function getProjectById(id) {

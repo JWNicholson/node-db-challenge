@@ -8,13 +8,15 @@ const router = express.Router();
 
 //GET all projects
 router.get('/projects', (req, res) => {
-    Projects.getProjects()
+    
+        Projects.getProjects()
         .then(projects => {
+        //console.log(projects)
             res.status(200).json(projects)
-        })
+    })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ error: 'Failed to get projects' })
+            res.status(500).json({ error: 'Could not get projects.' })
         })
 });
 // Get a project via id
